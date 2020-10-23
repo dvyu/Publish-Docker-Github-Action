@@ -20,7 +20,7 @@ function main() {
   
   if uses "${INPUT_WORKDIR}"; then
     ls
-    echo "hello world"
+    echo "change directory"
     changeWorkingDirectory
   fi
 
@@ -73,8 +73,12 @@ function translateDockerTag() {
     TAG="latest"
   elif isGitTag && usesBoolean "${INPUT_TAG_NAMES}"; then    
     TAG=$(echo ${GITHUB_REF} | sed -e "s/refs\/tags\/${INPUT_TAG_NAME_SKIP}//")
-  elif usesBoolean "${INPUT_BUILD_NUMBER_PREFIX}"; then    
+  elif uses "${INPUT_BUILD_NUMBER_PREFIX}"; then    
     echo BUILD_NUMBER_PREFIX=${BUILD_NUMBER_PREFIX}
+    echo TAG=${TAG}
+    echo TAG=${TAG}
+    echo build id: ${{ github.run_number }}
+    TAG="${BUILD_NUMBER_PREFIX}.${{ github.run_number }}"
     echo TAG=${TAG}
   elif isGitTag; then
     TAG="latest"
