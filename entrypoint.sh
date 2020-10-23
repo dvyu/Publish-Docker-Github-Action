@@ -25,7 +25,7 @@ function main() {
   fi
 
   if uses "${INPUT_BUILD_NUMBER_PREFIX}"; then
-    echo "BUILD_NUMBER_PREFIX=${BUILD_NUMBER_PREFIX}"
+    echo "BUILD_NUMBER_PREFIX=${INPUT_BUILD_NUMBER_PREFIX}"
   fi
 
   #echo ${INPUT_PASSWORD} | docker login -u ${INPUT_USERNAME} --password-stdin ${INPUT_REGISTRY}
@@ -71,13 +71,17 @@ function isPartOfTheName() {
 function translateDockerTag() {
   local BRANCH=$(echo ${GITHUB_REF} | sed -e "s/refs\/heads\///g" | sed -e "s/\//-/g")
   if hasCustomTag; then
+    echo if-hasCustomTag
     TAG=$(echo ${INPUT_NAME} | cut -d':' -f2)
     INPUT_NAME=$(echo ${INPUT_NAME} | cut -d':' -f1)
   elif isOnMaster; then
+    echo if-isOnMaster
     TAG="latest"
   elif isGitTag && usesBoolean "${INPUT_TAG_NAMES}"; then    
+    echo if-isGitTag-INPUT_TAG_NAMES
     TAG=$(echo ${GITHUB_REF} | sed -e "s/refs\/tags\/${INPUT_TAG_NAME_SKIP}//")
   elif uses "${INPUT_BUILD_NUMBER_PREFIX}"; then    
+    echo if-build_number_prefix
     echo BUILD_NUMBER_PREFIX=${BUILD_NUMBER_PREFIX}
     echo TAG=${TAG}
     echo TAG=${TAG}
@@ -85,10 +89,13 @@ function translateDockerTag() {
     TAG="${BUILD_NUMBER_PREFIX}.${{ github.run_number }}"
     echo TAG=${TAG}
   elif isGitTag; then
+    echo if-isGitTag
     TAG="latest"
   elif isPullRequest; then
+    echo if-isPullRequest
     TAG="${GITHUB_SHA}"
   else
+    echo if-last
     TAG="${BRANCH}"
   fi;
 }
