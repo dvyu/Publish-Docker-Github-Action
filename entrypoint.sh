@@ -25,7 +25,7 @@ function main() {
   fi
 
   if uses "${INPUT_BUILD_NUMBER_PREFIX}"; then
-    echo "BUILD_NUMBER_PREFIX=${INPUT_BUILD_NUMBER_PREFIX}"
+    echo "main-BUILD_NUMBER_PREFIX=${INPUT_BUILD_NUMBER_PREFIX}"
   fi
 
   #echo ${INPUT_PASSWORD} | docker login -u ${INPUT_USERNAME} --password-stdin ${INPUT_REGISTRY}
@@ -76,8 +76,8 @@ function translateDockerTag() {
     INPUT_NAME=$(echo ${INPUT_NAME} | cut -d':' -f1)
   elif uses "${INPUT_BUILD_NUMBER_PREFIX}"; then    
     echo if-build_number_prefix
-    echo BUILD_NUMBER_PREFIX=${BUILD_NUMBER_PREFIX}
-    echo TAG=${TAG}
+    echo func-BUILD_NUMBER_PREFIX=${INPUT_BUILD_NUMBER_PREFIX}
+    echo func-TAG=${TAG}
     #echo build id: ${{ github.run_number }}
     #TAG=$(printf "%s.%s" ${BUILD_NUMBER_PREFIX} ${{ github.run_number }})
   elif isOnMaster; then
