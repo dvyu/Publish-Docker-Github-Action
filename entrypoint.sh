@@ -140,11 +140,13 @@ function pushWithSnapshot() {
   #docker push ${DOCKERNAME}
   #docker push ${SHA_DOCKER_NAME}
   echo ::set-output name=snapshot-tag::"${SNAPSHOT_TAG}"
+  echo DOCKERNAME=${DOCKERNAME}
 }
 
 function pushWithoutSnapshot() {
   #docker build $BUILDPARAMS -t ${DOCKERNAME} .
   #docker push ${DOCKERNAME}
+  echo DOCKERNAME=${DOCKERNAME}
 }
 
 main
