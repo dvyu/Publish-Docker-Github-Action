@@ -73,6 +73,9 @@ function translateDockerTag() {
     TAG="latest"
   elif isGitTag && usesBoolean "${INPUT_TAG_NAMES}"; then    
     TAG=$(echo ${GITHUB_REF} | sed -e "s/refs\/tags\/${INPUT_TAG_NAME_SKIP}//")
+  elif usesBoolean "${INPUT_BUILD_NUMBER_PREFIX}"; then    
+    echo BUILD_NUMBER_PREFIX=${BUILD_NUMBER_PREFIX}
+    echo TAG=${TAG}
   elif isGitTag; then
     TAG="latest"
   elif isPullRequest; then
