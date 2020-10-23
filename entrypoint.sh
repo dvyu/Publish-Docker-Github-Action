@@ -24,7 +24,7 @@ function main() {
     changeWorkingDirectory
   fi
 
-  echo ${INPUT_PASSWORD} | docker login -u ${INPUT_USERNAME} --password-stdin ${INPUT_REGISTRY}
+  #echo ${INPUT_PASSWORD} | docker login -u ${INPUT_USERNAME} --password-stdin ${INPUT_REGISTRY}
 
   BUILDPARAMS=""
 
@@ -39,9 +39,9 @@ function main() {
  #   addPlatform
  # fi
  
-  if usesBoolean "${INPUT_CACHE}"; then
-    useBuildCache
-  fi
+ # if usesBoolean "${INPUT_CACHE}"; then
+ #   useBuildCache
+ # fi
 
   if usesBoolean "${INPUT_SNAPSHOT}"; then
     pushWithSnapshot
@@ -50,7 +50,7 @@ function main() {
   fi
   echo ::set-output name=tag::"${TAG}"
 
-  docker logout
+  #docker logout
 }
 
 function sanitize() {
@@ -113,11 +113,11 @@ function addBuildArgs() {
   done
 }
 
-function useBuildCache() {
-  if docker pull ${DOCKERNAME} 2>/dev/null; then
-    BUILDPARAMS="$BUILDPARAMS --cache-from ${DOCKERNAME}"
-  fi
-}
+#function useBuildCache() {
+#  if docker pull ${DOCKERNAME} 2>/dev/null; then
+#    BUILDPARAMS="$BUILDPARAMS --cache-from ${DOCKERNAME}"
+#  fi
+#}
 
 #function usePlatform() {
 #    BUILDPARAMS="$BUILDPARAMS --platform ${INPUT_PLATFORM}"
@@ -136,15 +136,15 @@ function pushWithSnapshot() {
   local SHORT_SHA=$(echo "${GITHUB_SHA}" | cut -c1-6)
   local SNAPSHOT_TAG="${TIMESTAMP}${SHORT_SHA}"
   local SHA_DOCKER_NAME="${INPUT_NAME}:${SNAPSHOT_TAG}"
-  docker build $BUILDPARAMS -t ${DOCKERNAME} -t ${SHA_DOCKER_NAME} .
-  docker push ${DOCKERNAME}
-  docker push ${SHA_DOCKER_NAME}
+  #docker build $BUILDPARAMS -t ${DOCKERNAME} -t ${SHA_DOCKER_NAME} .
+  #docker push ${DOCKERNAME}
+  #docker push ${SHA_DOCKER_NAME}
   echo ::set-output name=snapshot-tag::"${SNAPSHOT_TAG}"
 }
 
 function pushWithoutSnapshot() {
-  docker build $BUILDPARAMS -t ${DOCKERNAME} .
-  docker push ${DOCKERNAME}
+  #docker build $BUILDPARAMS -t ${DOCKERNAME} .
+  #docker push ${DOCKERNAME}
 }
 
 main
