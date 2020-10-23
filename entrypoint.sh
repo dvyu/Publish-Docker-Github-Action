@@ -78,7 +78,7 @@ function translateDockerTag() {
     echo if-build_number_prefix
     echo func-BUILD_NUMBER_PREFIX=${INPUT_BUILD_NUMBER_PREFIX}
     echo func-TAG=${TAG}
-    echo func-BUILD_ID=${{ github.run_number }}
+    echo func-BUILD_ID=${INPUT_BUILD_NUMBER}
     #TAG=$(printf "%s.%s" ${INPUT_BUILD_NUMBER_PREFIX} ${{ github.run_number }})
     #TAG="${{ github.run_number }}"
   elif isOnMaster; then
