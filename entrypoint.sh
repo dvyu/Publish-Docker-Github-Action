@@ -74,12 +74,6 @@ function translateDockerTag() {
     echo if-hasCustomTag
     TAG=$(echo ${INPUT_NAME} | cut -d':' -f2)
     INPUT_NAME=$(echo ${INPUT_NAME} | cut -d':' -f1)
-  elif isOnMaster; then
-    echo if-isOnMaster
-    TAG="latest"
-  elif isGitTag && usesBoolean "${INPUT_TAG_NAMES}"; then    
-    echo if-isGitTag-INPUT_TAG_NAMES
-    TAG=$(echo ${GITHUB_REF} | sed -e "s/refs\/tags\/${INPUT_TAG_NAME_SKIP}//")
   elif uses "${INPUT_BUILD_NUMBER_PREFIX}"; then    
     echo if-build_number_prefix
     echo BUILD_NUMBER_PREFIX=${BUILD_NUMBER_PREFIX}
@@ -88,6 +82,12 @@ function translateDockerTag() {
     echo build id: ${{ github.run_number }}
     TAG="${BUILD_NUMBER_PREFIX}.${{ github.run_number }}"
     echo TAG=${TAG}
+  elif isOnMaster; then
+    echo if-isOnMaster
+    TAG="latest"
+  elif isGitTag && usesBoolean "${INPUT_TAG_NAMES}"; then    
+    echo if-isGitTag-INPUT_TAG_NAMES
+    TAG=$(echo ${GITHUB_REF} | sed -e "s/refs\/tags\/${INPUT_TAG_NAME_SKIP}//")
   elif isGitTag; then
     echo if-isGitTag
     TAG="latest"
