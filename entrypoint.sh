@@ -24,6 +24,10 @@ function main() {
     changeWorkingDirectory
   fi
 
+  if uses "${INPUT_BUILD_NUMBER_PREFIX}"; then
+    echo "BUILD_NUMBER_PREFIX=${BUILD_NUMBER_PREFIX}"
+  fi
+
   #echo ${INPUT_PASSWORD} | docker login -u ${INPUT_USERNAME} --password-stdin ${INPUT_REGISTRY}
 
   BUILDPARAMS=""
