@@ -26,6 +26,7 @@ function main() {
 
   if uses "${INPUT_BUILD_NUMBER_PREFIX}"; then
     echo "main-BUILD_NUMBER_PREFIX=${INPUT_BUILD_NUMBER_PREFIX}"
+    echo "main-BUILD_NUMBER=${INPUT_BUILD_NUMBER}"
   fi
 
   #echo ${INPUT_PASSWORD} | docker login -u ${INPUT_USERNAME} --password-stdin ${INPUT_REGISTRY}
